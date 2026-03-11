@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GroundBreaker</title>
+  <meta name="description" content="GroundBreaker는 SentiLAB에서 개발한 모바일 게임입니다." />
+  <style>
+    /* 레이아웃 기반 스타일 */
+    :root {
+      --bg-1: #071028;
+      --bg-2: #0f172a;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --card-bg: rgba(255,255,255,0.03);
+      --card-border: rgba(255,255,255,0.06);
+    }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      color: #f1f5f9;
+      text-align: left; /* 전체 텍스트는 좌측 정렬 */
+      -webkit-font-smoothing: antialiased;
+    }
+    /* 컨테이너를 그리드로 전환: 사이드바 + 메인 */
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    h1 {
+      font-size: 36px;
+      margin: 0 0 18px 0;
+      text-align: center;
+      grid-column: 1 / -1; /* 제목은 전체 너비에 걸치도록 */
+      color: #e6eef8;
+      letter-spacing: -0.5px;
+    }
+    p { line-height: 1.65; margin-bottom: 16px; color: #dbe7f5; }
+    h2 {
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 12px 0;
+      font-size: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3, h4 { color: #e6eef8; margin-top: 14px; margin-bottom: 8px; }
+
+    /* 사이드바 */
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+      padding: 16px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .lang-list { list-style: none; padding: 0; margin: 0 0 12px 0; }
+    .lang-list li { margin: 8px 0; }
+    .lang-list a {
+      color: var(--accent);
+      text-decoration: none;
+      padding: 8px 10px;
+      display: inline-block;
+      border-radius: 6px;
+    }
+    .lang-list a:hover { background: rgba(56,189,248,0.06); color: #bff1ff; }
+
+    /* 메인 콘텐츠와 카드 스타일 */
+    .main { min-width: 0; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(2,6,23,0.5);
+    }
+    ul { margin-left: 20px; }
+    li { margin-bottom: 8px; }
+
+    /* Footer */
+    .footer {
+      grid-column: 1 / -1;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #93a4bf;
+      text-align: center;
+    }
+    .footer a { color: var(--accent); text-decoration: none; margin: 0 8px; }
+
+    /* 반응형: 모바일에서는 한 컬럼 */
+    @media (max-width: 880px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 18px;
+      }
+      .sidebar { position: relative; top: 0; margin-bottom: 12px; }
+      h1 { font-size: 28px; margin-bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Ground Breaker - Terms of Service &amp; Privacy Policy</h1>
+  <!-- 사이드바: 언어 네비게이션 -->
+  <aside class="sidebar" aria-label="언어 네비게이션">
+    <nav>
+      <ul class="lang-list">
+        <li><a href="#ko">🇰🇷 한국어</a></li>
+        <li><a href="#en">🇺🇸 English</a></li>
+        <li><a href="#jp">🇯🇵 日本語</a></li>
+      </ul>
+    </nav>
+    <div style="margin-top:12px; font-size:13px;">
+      <div>문의: <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a></div>
+      <div style="margin-top:8px; color:var(--muted);">Effective: 2026.01.01</div>
+    </div>
+  </aside>
+  <!-- 메인 콘텐츠 -->
+  <main class="main">
+    <p>This page provides the Terms of Service and Privacy Policy for <strong>GroundBreaker</strong> in Korean, English, and Japanese.</p>
+
+    <hr />
+
+    <section class="card" id="ko">
+      <h2>🇰🇷 한국어</h2>
+
+      <h3>이용약관</h3>
+      <p>
+        본 이용약관은 <strong>Ground Breaker</strong>(이하 "서비스")의 이용과 관련하여
+        서비스 제공자 <strong>센치랩(SentiLAB)</strong>(이하 "개발자")와
+        이용자 간의 권리, 의무 및 책임사항을 규정합니다.
+      </p>
+
+      <h4>1. 서비스 내용</h4>
+      <p>본 서비스는 모바일 기기에서 플레이 가능한 게임을 제공합니다.</p>
+
+      <h4>2. 계정 및 데이터</h4>
+      <ul>
+        <li>이용자는 로그인 없이 게스트(익명) 상태로 서비스를 이용할 수 있습니다.</li>
+        <li>이용자가 Google 로그인을 선택한 경우, 게임 데이터는 서버에 저장되어 기기 변경 시 복원될 수 있습니다.</li>
+        <li>로그인하지 않은 상태에서 앱 삭제 또는 기기 변경 시 데이터는 복구되지 않을 수 있습니다.</li>
+      </ul>
+
+      <h4>3. 데이터 보관</h4>
+      <ul>
+        <li>게임 데이터는 Supabase 서비스를 통해 저장됩니다.</li>
+        <li>개발자는 서비스 운영에 필요한 범위 내에서만 데이터를 사용합니다.</li>
+      </ul>
+
+      <h4>4. 서비스 변경 및 중단</h4>
+      <p>개발자는 서비스 개선 또는 운영상의 이유로 서비스의 일부 또는 전부를 변경하거나 중단할 수 있습니다.</p>
+
+      <h4>5. 책임 제한</h4>
+      <p>개발자는 불가항력으로 인한 서비스 중단 또는 데이터 손실에 대해 책임을 지지 않습니다.</p>
+
+      <h4>6. 문의</h4>
+      <p>📧 <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a></p>
+      <p>본 약관은 <strong>2026.01.01</strong>부터 적용됩니다.</p>
+
+      <h3>개인정보처리방침</h3>
+
+      <h4>1. 수집하는 개인정보</h4>
+      <p>본 서비스는 아래 정보를 수집할 수 있습니다.</p>
+      <ul>
+        <li>계정 식별자 (Supabase user ID)</li>
+        <li>로그인 정보 (Google OAuth 식별 정보)</li>
+        <li><strong>Google 로그인 시 Google 계정의 이메일 주소</strong></li>
+        <li>게임 진행 데이터 (레벨, 재화, 설정 등)</li>
+      </ul>
+      <p>※ 이메일 주소는 사용자가 직접 입력하지 않으며, 로그인 과정에서 Google OAuth 제공자로부터 전달될 수 있습니다.</p>
+
+      <h4>2. 개인정보의 이용 목적</h4>
+      <ul>
+        <li>로그인 및 계정 식별</li>
+        <li>게임 데이터 저장 및 복원</li>
+        <li>서비스 안정성 개선</li>
+      </ul>
+
+      <h4>3. 제3자 제공</h4>
+      <p>본 서비스는 아래 외부 서비스를 이용합니다.</p>
+      <ul>
+        <li><strong>Supabase</strong> (백엔드 및 인증)</li>
+        <li><strong>Google OAuth</strong> (로그인 기능)</li>
+      </ul>
+
+      <h4>4. 개인정보 보관 및 이용 기간, 삭제</h4>
+      <p>
+        개인정보는 이용자가 서비스를 이용하는 동안 보관됩니다.
+        이용자는 앱을 사용하지 않고도 이메일(<a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a>)을 통해
+        계정 및 개인정보 삭제를 요청할 수 있습니다.
+        삭제 요청 시 관련 데이터는 합리적인 기간 내에 삭제됩니다.
+      </p>
+
+      <h4>5. 문의</h4>
+      <p>📧 <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a></p>
+      <p>시행일: <strong>2026.01.01</strong></p>
+    </section>
+
+    <section class="card" id="en">
+      <h2>🇺🇸 English</h2>
+
+      <h3>Terms of Service</h3>
+      <p>
+        These Terms govern the use of <strong>GroundBreaker</strong> (the "Service"),
+        provided by <strong>SentiLAB</strong>.
+      </p>
+
+      <h4>1. Service Description</h4>
+      <p>The Service provides a mobile game experience.</p>
+
+      <h4>2. Account and Data</h4>
+      <ul>
+        <li>Users may play as a guest without logging in.</li>
+        <li>If users sign in with Google, game data may be stored on a server and restored when changing devices.</li>
+        <li>Guest data may be lost if the app is deleted or the device is changed.</li>
+      </ul>
+
+      <h4>3. Data Storage</h4>
+      <ul>
+        <li>Game data is stored using Supabase services.</li>
+        <li>Data is used only for service operation.</li>
+        <li>Users can request account and personal information deletion by emailing <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a> without using the app. Upon request, relevant data will be deleted within a reasonable period of time.</li>
+      </ul>
+
+      <h4>4. Service Changes</h4>
+      <p>The Service may be modified or discontinued at any time.</p>
+
+      <h4>5. Limitation of Liability</h4>
+      <p>The developer is not liable for data loss caused by factors beyond reasonable control.</p>
+
+      <h4>6. Contact</h4>
+      <p>📧 <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a></p>
+      <p>Effective date: <strong>2026.01.01</strong></p>
+
+      <h3>Privacy Policy</h3>
+
+      <h4>1. Information Collected</h4>
+      <p>The Service may collect the following information:</p>
+      <ul>
+        <li>Account identifier (Supabase user ID)</li>
+        <li>Login information (Google OAuth)</li>
+        <li><strong>Email address provided by Google during Google Sign-In</strong></li>
+        <li>Game progress data</li>
+      </ul>
+      <p>The email address is not entered directly by the user and may be provided by Google as part of the authentication process.</p>
+
+      <h4>2. Purpose of Use</h4>
+      <ul>
+        <li>Account authentication and identification</li>
+        <li>Saving and restoring game data</li>
+        <li>Service improvement</li>
+      </ul>
+
+      <h4>3. Third-Party Services</h4>
+      <ul>
+        <li>Supabase (backend and authentication)</li>
+        <li>Google OAuth (login service)</li>
+      </ul>
+
+      <h4>4. Data Retention and Deletion</h4>
+      <ul>
+        <li>Data is retained while the user uses the Service.</li>
+        <li>Users may request account and personal data deletion by contacting us via email (<a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a>) without using the app.</li>
+        <li>Requested data will be deleted within a reasonable timeframe.</li>
+      </ul>
+
+      <h4>5. Contact</h4>
+      <p>📧 <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a></p>
+      <p>Effective date: <strong>2026.01.01</strong></p>
+    </section>
+
+    <section class="card" id="jp">
+      <h2>🇯🇵 日本語</h2>
+
+      <h3>利用規約</h3>
+      <p>
+        本規約は、<strong>Ground Breaker</strong>（以下「本サービス」）の利用条件を定めるものです。
+        提供者は <strong>SentiLAB</strong> です。
+      </p>
+
+      <h4>1. サービス内容</h4>
+      <p>本サービスはモバイル向けゲームを提供します。</p>
+
+      <h4>2. アカウントおよびデータ</h4>
+      <ul>
+        <li>ユーザーはログインせずにゲストとして利用できます。</li>
+        <li>Googleログインを行った場合、データはサーバーに保存され、機種変更時に復元される場合があります。</li>
+        <li>ゲストデータは復元できない場合があります。</li>
+      </ul>
+
+      <h4>3. データの保存</h4>
+      <ul>
+        <li>データは Supabase を使用して保存されます。</li>
+        <li>データはサービス運営の目的にのみ使用されます。</li>
+      </ul>
+
+      <h4>4. サービスの変更</h4>
+      <p>本サービスは予告なく変更または終了することがあります。</p>
+
+      <h4>5. 免責事項</h4>
+      <p>不可抗力によるデータ損失について、責任を負いません。</p>
+
+      <h4>6. お問い合わせ</h4>
+      <p>📧 <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a></p>
+      <p>施行日: <strong>2026.01.01</strong></p>
+
+      <h3>プライバシーポリシー</h3>
+
+      <h4>1. 収集する情報</h4>
+      <p>本サービスは以下の情報を収集する場合があります。</p>
+      <ul>
+        <li>アカウント識別子（Supabase user ID）</li>
+        <li>ログイン情報（Google OAuth）</li>
+        <li><strong>Googleログイン時に提供されるメールアドレス</strong></li>
+        <li>ゲーム進行データ</li>
+      </ul>
+      <p>
+        メールアドレスは、認証のために Google から提供されるものであり、
+        ユーザーが直接入力するものではありません。
+      </p>
+
+      <h4>2. 利用目的</h4>
+      <ul>
+        <li>ログインおよびアカウント識別</li>
+        <li>データ保存および復元</li>
+        <li>サービス改善</li>
+      </ul>
+
+      <h4>3. 第三者サービス</h4>
+      <ul>
+        <li>Supabase</li>
+        <li>Google OAuth</li>
+      </ul>
+
+      <h4>4. 保管期間および削除</h4>
+      <p>
+        ユーザーが本サービスを利用している間、保管されます。
+        ユーザーは、アプリを使用せずに電子メール（<a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a>）を介して
+        アカウントと個人情報の削除をリクエストできます。
+        削除要求時に、関連データは合理的な期間内に削除されます。
+      </p>
+
+      <h4>5. お問い合わせ</h4>
+      <p>📧 <a href="mailto:sentilab@gmail.com">sentilab@gmail.com</a></p>
+      <p>施行日: <strong>2026.01.01</strong></p>
+    </section>
+  </main>
+  <div class="footer">
+    <p>
+      <a href="./index.html">SentiLAB 홈페이지</a>
+    </p>
+    © 2024 SentiLAB. All Rights Reserved.
+  </div>
+</div>
+</body>
+</html>
