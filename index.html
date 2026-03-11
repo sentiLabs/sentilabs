@@ -3,40 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- 1. 앱 이름이 드러나도록 title 수정 -->
-  <title>GroundBreaker - SentiLab</title>
-  <meta name="description" content="GroundBreaker는 SentiLab에서 개발한 모바일 게임입니다." />
+  <title>SentiLAB (센치랩) - 모바일 게임 스튜디오</title>
+  <meta name="description" content="SentiLab(센치랩)은 모바일 게임 및 디지털 콘텐츠를 개발하는 스튜디오입니다." />
   <style>
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f1f5f9; display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; }
-    .container { max-width: 600px; padding: 40px; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f1f5f9; text-align: center; }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px; }
     h1 { font-size: 48px; margin-bottom: 10px; }
-    h2 { font-weight: 400; color: #94a3b8; margin-bottom: 30px; font-size: 24px; }
-    p { line-height: 1.6; margin-bottom: 20px; }
-    .footer { margin-top: 40px; font-size: 14px; color: #64748b; }
-    a { color: #38bdf8; text-decoration: none; }
+    h2 { font-weight: 400; color: #94a3b8; margin-bottom: 40px; font-size: 24px; }
+    .games-section { margin: 50px 0; }
+    .games-section h3 { font-size: 32px; border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 30px; }
+    .game-card { background: #1e293b; padding: 25px; border-radius: 8px; margin-bottom: 20px; }
+    .game-card h4 a { font-size: 24px; margin: 0 0 10px 0; text-decoration: none; }
+    .game-card p { color: #cbd5e1; }
+    .footer { margin-top: 60px; font-size: 14px; color: #64748b; }
+    a { color: #38bdf8; }
     .footer a { font-size: 16px; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- 2. 앱 이름이 메인 제목이 되도록 수정 -->
-    <h1>GroundBreaker</h1>
-    <h2>by SentiLab (센치랩)</h2>
+<div class="container">
+  <h1>SentiLab (센치랩)</h1>
+  <h2>모바일 게임 & 디지털 콘텐츠 스튜디오</h2>
 
-    <p>
-      GroundBreaker는 센치랩(SentiLab)에서 개발한 모바일 게임입니다.
-      단순하지만 깊이 있는 재미를 통해 최고의 광부가 되어보세요.
-    </p>
+  <div class="games-section">
+    <h3>Our Games</h3>
 
-    <p>
-      게임은 Google Play 스토어와 Apple App Store에서 만나보실 수 있습니다.
-    </p>
-
-    <div class="footer">
-      <!-- 3. 개인정보처리방침 링크 추가 -->
-      <p><a href="./privacy.html">개인정보처리방침 (Privacy Policy)</a></p>
-      © 2024 SentiLab. All Rights Reserved.
+    <div class="game-card">
+      <!-- 제목을 클릭하면 게임 전용 페이지로 이동하도록 링크 추가 -->
+      <h4><a href="./ground-breaker.html">GroundBreaker</a></h4>
+      <p>단순하지만 깊이 있는 재미를 통해 최고의 광부가 되어보세요.</p>
+      <p><a href="./ground-breaker.html">개인정보처리방침 (Privacy Policy)</a></p>
     </div>
+
   </div>
+
+  <div class="footer">
+    © 2026 SentiLab. All Rights Reserved.
+  </div>
+</div>
 </body>
 </html>
