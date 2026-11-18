@@ -3,43 +3,467 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SentiLAB (센치랩) - 모바일 게임 스튜디오</title>
+  <title>SentiLab (센치랩) - 모바일 게임 스튜디오</title>
   <meta name="description" content="SentiLab(센치랩)은 모바일 게임 및 디지털 콘텐츠를 개발하는 스튜디오입니다." />
+  <meta name="theme-color" content="#0b0d17" />
   <style>
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f1f5f9; text-align: center; }
-    .container { max-width: 800px; margin: 0 auto; padding: 40px; }
-    h1 { font-size: 48px; margin-bottom: 10px; }
-    h2 { font-weight: 400; color: #94a3b8; margin-bottom: 40px; font-size: 24px; }
-    .games-section { margin: 50px 0; }
-    .games-section h3 { font-size: 32px; border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 30px; }
-    .game-card { background: #1e293b; padding: 25px; border-radius: 8px; margin-bottom: 20px; }
-    .game-card h4 a { font-size: 24px; margin: 0 0 10px 0; text-decoration: none; }
-    .game-card p { color: #cbd5e1; }
-    .footer { margin-top: 60px; font-size: 14px; color: #64748b; }
-    a { color: #38bdf8; }
-    .footer a { font-size: 16px; }
+    :root {
+      --bg: #0b0d17;
+      --bg-soft: #11142385;
+      --surface: rgba(255,255,255,.04);
+      --surface-hover: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.09);
+      --text: #eef1fb;
+      --muted: #9aa3bd;
+      --accent: #7c5cff;
+      --accent-2: #22d3ee;
+      --accent-3: #ff6ec7;
+      --grad: linear-gradient(120deg, var(--accent), var(--accent-2));
+      --radius: 20px;
+      --shadow: 0 20px 60px -20px rgba(0,0,0,.6);
+    }
+    :root[data-theme="light"] {
+      --bg: #f6f7fc;
+      --bg-soft: #ffffff90;
+      --surface: rgba(20,24,50,.04);
+      --surface-hover: rgba(20,24,50,.08);
+      --border: rgba(20,24,50,.1);
+      --text: #12162b;
+      --muted: #5b6382;
+      --shadow: 0 20px 50px -25px rgba(30,40,90,.35);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, sans-serif;
+      line-height: 1.6; overflow-x: hidden; transition: background .4s, color .4s;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+    /* background */
+    .bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .45; animation: float 18s ease-in-out infinite; }
+    .blob.b1 { width: 520px; height: 520px; background: var(--accent); top: -140px; left: -120px; }
+    .blob.b2 { width: 460px; height: 460px; background: var(--accent-2); top: 30%; right: -160px; animation-delay: -6s; }
+    .blob.b3 { width: 400px; height: 400px; background: var(--accent-3); bottom: -160px; left: 25%; animation-delay: -12s; opacity: .3; }
+    :root[data-theme="light"] .blob { opacity: .28; }
+    @keyframes float { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(40px,-50px) scale(1.12); } }
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 20%, transparent 70%);
+      opacity: .5;
+    }
+    .cursor-glow {
+      position: fixed; width: 210px; height: 210px; border-radius: 50%; pointer-events: none; z-index: -1;
+      background: radial-gradient(circle, rgba(124,92,255,.11), transparent 65%);
+      transform: translate(-50%,-50%); left: 50%; top: 30%; transition: opacity .3s;
+    }
+    .progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: var(--grad); z-index: 100; }
+
+    /* nav */
+    header {
+      position: fixed; top: 0; inset-inline: 0; z-index: 50; padding: 14px 0;
+      transition: background .3s, backdrop-filter .3s, border-color .3s; border-bottom: 1px solid transparent;
+    }
+    header.scrolled { background: var(--bg-soft); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: var(--border); }
+    nav { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.02em; font-size: 18px; }
+    .logo-mark { width: 32px; height: 32px; border-radius: 10px; background: var(--grad); display: grid; place-items: center; color: #fff; font-size: 16px; box-shadow: 0 6px 20px -4px var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a.link { padding: 8px 14px; border-radius: 999px; color: var(--muted); font-size: 15px; font-weight: 500; transition: .2s; }
+    .nav-links a.link:hover, .nav-links a.link.active { color: var(--text); background: var(--surface-hover); }
+    .icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; font-size: 16px; transition: .2s; }
+    .icon-btn:hover { background: var(--surface-hover); transform: rotate(20deg); }
+    .menu-btn { display: none; }
+
+    /* hero */
+    .hero { min-height: 100vh; display: grid; align-items: center; padding: 120px 0 80px; }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid var(--border); background: var(--surface); border-radius: 999px; font-size: 13px; color: var(--muted); }
+    .badge i { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 0 #34d39988; animation: pulse 2s infinite; }
+    @keyframes pulse { 70% { box-shadow: 0 0 0 10px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+    h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.08; letter-spacing: -.04em; margin: 22px 0 18px; font-weight: 800; }
+    .grad-text { background: linear-gradient(120deg, var(--accent), var(--accent-2), var(--accent-3)); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 6s linear infinite; }
+    @keyframes shine { to { background-position: 200% center; } }
+    .rotator { display: inline-block; min-width: 1ch; }
+    .rotator::after { content: "|"; margin-left: 2px; color: var(--accent-2); -webkit-text-fill-color: var(--accent-2); animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .lead { font-size: clamp(16px, 2vw, 19px); color: var(--muted); max-width: 520px; margin: 0 0 32px; }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 999px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; will-change: transform; }
+    .btn.primary { background: var(--grad); color: #fff; border: 0; box-shadow: 0 10px 30px -10px var(--accent); }
+    .btn.primary:hover { box-shadow: 0 14px 40px -8px var(--accent); }
+    .btn.ghost { background: var(--surface); color: var(--text); }
+    .btn.ghost:hover { background: var(--surface-hover); }
+    .stats { display: flex; gap: 36px; margin-top: 48px; }
+    .stat b { display: block; font-size: 30px; letter-spacing: -.02em; }
+    .stat span { font-size: 13px; color: var(--muted); }
+
+    .hero-visual { position: relative; aspect-ratio: 1; max-width: 460px; margin-inline: auto; width: 100%; perspective: 900px; }
+    .orb { position: absolute; inset: 8%; border-radius: 32% 68% 62% 38% / 42% 40% 60% 58%; background: conic-gradient(from 180deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent)); animation: morph 10s ease-in-out infinite, spin 24s linear infinite; filter: blur(2px); opacity: .9; }
+    @keyframes morph { 50% { border-radius: 60% 40% 35% 65% / 55% 65% 35% 45%; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .float-card { position: absolute; padding: 12px 16px; border-radius: 16px; background: var(--bg-soft); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--border); box-shadow: var(--shadow); font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; animation: bob 5s ease-in-out infinite; }
+    .float-card em { font-style: normal; font-size: 22px; }
+    .float-card small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+    .fc1 { top: 6%; left: -4%; } .fc2 { bottom: 12%; right: -6%; animation-delay: -2s; } .fc3 { bottom: -2%; left: 10%; animation-delay: -3.5s; }
+    @keyframes bob { 50% { transform: translateY(-14px); } }
+    .scroll-hint { position: absolute; bottom: 28px; left: 50%; translate: -50% 0; width: 24px; height: 40px; border: 2px solid var(--border); border-radius: 14px; }
+    .scroll-hint::after { content: ""; position: absolute; top: 7px; left: 50%; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--muted); animation: wheel 1.6s infinite; }
+    @keyframes wheel { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(14px); } }
+
+    /* marquee */
+    .marquee { border-block: 1px solid var(--border); overflow: hidden; padding: 18px 0; background: var(--surface); }
+    .marquee-track { display: flex; gap: 48px; width: max-content; animation: scrollx 30s linear infinite; font-weight: 700; font-size: 20px; color: var(--muted); letter-spacing: -.01em; }
+    .marquee-track span::after { content: "✦"; margin-left: 48px; color: var(--accent); }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    @keyframes scrollx { to { transform: translateX(-50%); } }
+
+    /* sections */
+    section { padding: 110px 0 20px; }
+    .eyebrow { color: var(--accent-2); font-weight: 700; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
+    h2.title { font-size: clamp(30px, 4.5vw, 48px); letter-spacing: -.03em; margin: 10px 0 14px; line-height: 1.15; }
+    .sub { color: var(--muted); max-width: 560px; margin: 0 0 44px; }
+
+    /* games */
+    .games { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .card {
+      position: relative; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); overflow: hidden;
+      transition: transform .25s ease, border-color .25s, box-shadow .25s; transform-style: preserve-3d; will-change: transform;
+    }
+    .card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(360px circle at var(--mx,50%) var(--my,0%), rgba(124,92,255,.18), transparent 60%); opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 1; }
+    .card:hover { border-color: rgba(124,92,255,.5); box-shadow: var(--shadow); }
+    .card:hover::before { opacity: 1; }
+    .thumb { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+    .thumb svg, .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+    .card:hover .thumb svg, .card:hover .thumb img { transform: scale(1.07); }
+    .tag { position: absolute; top: 14px; left: 14px; z-index: 2; padding: 4px 12px; font-size: 12px; font-weight: 600; background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 999px; }
+    .card-body { padding: 24px; position: relative; z-index: 2; }
+    .card-body h3 { margin: 0 0 8px; font-size: 22px; letter-spacing: -.02em; }
+    .card-body p { margin: 0 0 20px; color: var(--muted); font-size: 15px; }
+    .card-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; border: 1px solid var(--border); background: var(--surface); transition: .2s; }
+    .chip:hover { background: var(--surface-hover); transform: translateY(-2px); }
+    .chip.main { background: var(--grad); border: 0; color: #fff; }
+    .card.soon { display: grid; place-items: center; text-align: center; min-height: 380px; border-style: dashed; background: transparent; }
+    .card.soon .plus { font-size: 44px; color: var(--muted); animation: bob 4s ease-in-out infinite; }
+    .card.soon p { margin: 8px 0 0; color: var(--muted); }
+
+    /* about */
+    .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feature { padding: 30px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); transition: .25s; }
+    .feature:hover { transform: translateY(-6px); background: var(--surface-hover); }
+    .feature .ico { width: 50px; height: 50px; border-radius: 14px; display: grid; place-items: center; font-size: 24px; background: var(--grad); margin-bottom: 18px; box-shadow: 0 10px 24px -10px var(--accent); }
+    .feature h3 { margin: 0 0 8px; font-size: 19px; }
+    .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    /* privacy */
+    .policy-list { display: grid; gap: 12px; }
+    .policy-item { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); transition: .25s; }
+    .policy-item:hover { transform: translateX(8px); border-color: rgba(124,92,255,.5); background: var(--surface-hover); }
+    .policy-item .l { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .policy-item .l span.i { width: 40px; height: 40px; flex: none; border-radius: 12px; display: grid; place-items: center; background: var(--surface-hover); }
+    .policy-item b { display: block; }
+    .policy-item small { color: var(--muted); }
+    .arrow { transition: transform .25s; font-size: 20px; }
+    .policy-item:hover .arrow { transform: translateX(6px); }
+
+    /* contact */
+    .cta-box { position: relative; overflow: hidden; text-align: center; padding: 70px 24px; border-radius: 32px; border: 1px solid var(--border); background: var(--surface); }
+    .cta-box::before { content: ""; position: absolute; inset: -40%; background: conic-gradient(from 0deg, transparent, rgba(124,92,255,.25), transparent 40%, rgba(34,211,238,.2), transparent 80%); animation: spin 14s linear infinite; }
+    .cta-box > * { position: relative; }
+    .cta-box h2 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 12px; letter-spacing: -.03em; }
+    .cta-box p { color: var(--muted); margin: 0 0 28px; }
+
+    footer { padding: 70px 0 40px; color: var(--muted); font-size: 14px; }
+    .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding-top: 28px; border-top: 1px solid var(--border); }
+
+    /* reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s ease, transform .8s ease; transition-delay: var(--d, 0s); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 860px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { max-width: 320px; order: -1; }
+      .about-grid { grid-template-columns: 1fr; }
+      .menu-btn { display: inline-block; }
+      .nav-links { position: fixed; inset: 64px 16px auto 16px; flex-direction: column; align-items: stretch; padding: 12px; border-radius: 20px; background: var(--bg); border: 1px solid var(--border); box-shadow: var(--shadow); opacity: 0; pointer-events: none; transform: translateY(-10px); transition: .25s; }
+      .nav-links.open { opacity: 1; pointer-events: auto; transform: none; }
+      .nav-links a.link { text-align: center; }
+      .nav-tools { display: flex; justify-content: center; gap: 8px; padding-top: 6px; }
+      .scroll-hint { display: none; }
+      .stats { gap: 24px; }
+    }
+    @media (min-width: 861px) { .nav-tools { display: contents; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>SentiLab (센치랩)</h1>
-  <h2>모바일 게임 & 디지털 콘텐츠 스튜디오</h2>
+  <div class="progress" id="progress"></div>
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="grid-bg"></div>
+  </div>
+  <div class="cursor-glow" id="glow" aria-hidden="true"></div>
 
-  <div class="games-section">
-    <h3>Our Games</h3>
+  <header id="header">
+    <div class="wrap">
+      <nav>
+        <a href="#top" class="logo"><span class="logo-mark">S</span>SentiLab</a>
+        <div class="nav-links" id="navLinks">
+          <a class="link" href="#games">Games</a>
+          <a class="link" href="#about">About</a>
+          <a class="link" href="#privacy">Privacy</a>
+          <a class="link" href="#contact">Contact</a>
+          <div class="nav-tools">
+            <button class="icon-btn" id="themeBtn" aria-label="테마 전환">🌙</button>
+          </div>
+        </div>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="메뉴">☰</button>
+      </nav>
+    </div>
+  </header>
 
-    <div class="game-card">
-      <!-- 제목을 클릭하면 게임 전용 페이지로 이동하도록 링크 추가 -->
-      <h4><a href="./ground-breaker.html">GroundBreaker</a></h4>
-      <p>단순하지만 깊이 있는 재미를 통해 최고의 광부가 되어보세요.</p>
-      <p><a href="./ground-breaker.html">개인정보처리방침 (Privacy Policy)</a></p>
+  <main id="top">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="badge reveal"><i></i> 새로운 게임을 만들고 있어요</span>
+          <h1 class="reveal" style="--d:.1s">
+            <span class="grad-text">센치랩</span>이 만드는<br />
+            <span class="rotator" id="rotator"></span>
+          </h1>
+          <p class="lead reveal" style="--d:.2s">SentiLab은 단순하지만 깊이 있는 재미를 추구하는 모바일 게임 & 디지털 콘텐츠 스튜디오입니다.</p>
+          <div class="cta reveal" style="--d:.3s">
+            <a class="btn primary magnetic" href="#games">게임 둘러보기 →</a>
+            <a class="btn ghost magnetic" href="#privacy">개인정보처리방침</a>
+          </div>
+          <div class="stats reveal" style="--d:.4s">
+            <div class="stat"><b data-count="1">0</b><span>출시 게임</span></div>
+            <div class="stat"><b data-count="100" data-suffix="%">0</b><span>인디 제작</span></div>
+            <div class="stat"><b data-count="1" data-suffix="+">0</b><span>진행 중 프로젝트</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" style="--d:.2s" id="tilt">
+          <div class="orb"></div>
+          <div class="float-card fc1"><em>⛏️</em><div>GroundBreaker<small>Mining Game</small></div></div>
+          <div class="float-card fc2"><em>🎮</em><div>Mobile First<small>iOS · Android</small></div></div>
+          <div class="float-card fc3"><em>🔒</em><div>Privacy Ready<small>투명한 정책</small></div></div>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true"></div>
     </div>
 
-  </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee"></div>
+    </div>
 
-  <div class="footer">
-    © 2026 SentiLab. All Rights Reserved.
-  </div>
-</div>
+    <!-- GAMES -->
+    <section id="games">
+      <div class="wrap">
+        <div class="reveal"><div class="eyebrow">Our Games</div>
+        <h2 class="title">센치랩의 게임</h2>
+        <p class="sub">짧게 즐겨도 오래 기억에 남는 게임을 만듭니다.</p></div>
+        <div class="games" id="gamesGrid"></div>
+        <noscript><p><a href="./ground-breaker.html">GroundBreaker 개인정보처리방침</a></p></noscript>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrap">
+        <div class="reveal"><div class="eyebrow">About</div>
+        <h2 class="title">작지만 단단하게,<br />재미에 집중합니다</h2>
+        <p class="sub">센치랩은 아이디어를 빠르게 실험하고, 플레이어의 피드백으로 다듬어가는 작은 스튜디오입니다.</p></div>
+        <div class="about-grid">
+          <div class="feature reveal"><div class="ico">🎯</div><h3>단순하지만 깊게</h3><p>누구나 바로 시작할 수 있고, 하면 할수록 깊어지는 게임플레이를 지향합니다.</p></div>
+          <div class="feature reveal" style="--d:.1s"><div class="ico">⚡</div><h3>빠른 실험</h3><p>작은 프로토타입으로 재미를 먼저 검증하고, 빠르게 개선해 나갑니다.</p></div>
+          <div class="feature reveal" style="--d:.2s"><div class="ico">🤝</div><h3>투명한 운영</h3><p>플레이어의 개인정보를 소중히 다루며, 모든 정책을 공개적으로 안내합니다.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section id="privacy">
+      <div class="wrap">
+        <div class="reveal"><div class="eyebrow">Privacy</div>
+        <h2 class="title">개인정보처리방침</h2>
+        <p class="sub">센치랩에서 출시한 서비스별 개인정보처리방침을 확인하실 수 있습니다.</p></div>
+        <div class="policy-list" id="policyList"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="wrap">
+        <div class="cta-box reveal">
+          <h2>함께 이야기해요 👋</h2>
+          <p>문의, 제안, 피드백은 언제든 환영합니다.</p>
+          <!-- TODO: 실제 문의 이메일로 교체하세요 -->
+          <a class="btn primary magnetic" href="mailto:contact@example.com">메일 보내기</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>© 2026 SentiLab. All Rights Reserved.</div>
+      <a href="#top">맨 위로 ↑</a>
+    </div>
+  </footer>
+
+<script>
+/* ===== 게임 데이터: 새 게임을 출시할 때 여기에 항목만 추가하세요 ===== */
+const GAMES = [
+  {
+    name: "GroundBreaker",
+    tag: "Mining · Casual",
+    desc: "단순하지만 깊이 있는 재미를 통해 최고의 광부가 되어보세요.",
+    page: "./ground-breaker-game.html",  // 게임 페이지
+    privacy: "./ground-breaker.html",    // 개인정보처리방침
+    image: "",                           // 실제 이미지 경로 (비워두면 임시 이미지 표시)
+    colors: ["#7c5cff", "#22d3ee"],      // 임시 이미지 색상
+    emoji: "⛏️"
+  }
+];
+
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+
+/* 임시 이미지(SVG) */
+function placeholder(g) {
+  const [a, b] = g.colors || ["#7c5cff", "#22d3ee"];
+  return `<svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${g.name} 임시 이미지">
+    <defs><linearGradient id="g-${g.name}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>
+    <rect width="640" height="400" fill="url(#g-${g.name})"/>
+    <g fill="#fff" opacity=".12"><circle cx="540" cy="70" r="110"/><circle cx="90" cy="360" r="140"/><rect x="250" y="230" width="220" height="220" rx="40" transform="rotate(20 360 340)"/></g>
+    <text x="320" y="215" text-anchor="middle" font-size="96">${g.emoji || "🎮"}</text>
+    <text x="320" y="285" text-anchor="middle" font-size="22" font-family="sans-serif" font-weight="700" fill="#fff" opacity=".85">${g.name}</text>
+    <text x="320" y="318" text-anchor="middle" font-size="14" font-family="sans-serif" fill="#fff" opacity=".6">PLACEHOLDER IMAGE</text>
+  </svg>`;
+}
+
+/* 렌더링 */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+$("#gamesGrid").innerHTML = GAMES.map((g, i) => `
+  <article class="card reveal" style="--d:${i * .1}s">
+    <div class="thumb"><span class="tag">${esc(g.tag)}</span>${g.image ? `<img src="${esc(g.image)}" alt="${esc(g.name)}" loading="lazy">` : placeholder(g)}</div>
+    <div class="card-body">
+      <h3>${esc(g.name)}</h3><p>${esc(g.desc)}</p>
+      <div class="card-actions">
+        <a class="chip main" href="${esc(g.page)}">자세히 보기</a>
+        <a class="chip" href="${esc(g.privacy)}">🔒 개인정보처리방침</a>
+      </div>
+    </div>
+  </article>`).join("") + `
+  <article class="card soon reveal" style="--d:${GAMES.length * .1}s"><div><div class="plus">＋</div><h3>Coming Soon</h3><p>다음 게임을 준비하고 있어요</p></div></article>`;
+
+$("#policyList").innerHTML = GAMES.map((g, i) => `
+  <a class="policy-item reveal" style="--d:${i * .08}s" href="${esc(g.privacy)}">
+    <div class="l"><span class="i">${g.emoji || "🎮"}</span><div><b>${esc(g.name)}</b><small>개인정보처리방침 (Privacy Policy)</small></div></div>
+    <span class="arrow">→</span>
+  </a>`).join("");
+
+$("#marquee").innerHTML = [...Array(2)].map(() =>
+  ["SentiLab", "Mobile Games", "Indie Studio", ...GAMES.map(g => g.name), "Play · Create · Share"].map(t => `<span>${esc(t)}</span>`).join("")
+).join("");
+
+/* 타이핑 로테이터 */
+(() => {
+  const words = ["재미있는 게임", "가벼운 모험", "깊이 있는 경험", "다음 이야기"];
+  const el = $("#rotator"); let w = 0, c = 0, del = false;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = words[0]; return; }
+  (function tick() {
+    const word = words[w];
+    el.textContent = word.slice(0, c);
+    if (!del && c === word.length) { del = true; return setTimeout(tick, 1600); }
+    if (del && c === 0) { del = false; w = (w + 1) % words.length; }
+    c += del ? -1 : 1;
+    setTimeout(tick, del ? 40 : 90);
+  })();
+  el.classList.add("grad-text");
+})();
+
+/* 스크롤: 헤더, 진행바, 활성 메뉴 */
+const header = $("#header"), progress = $("#progress");
+addEventListener("scroll", () => {
+  header.classList.toggle("scrolled", scrollY > 20);
+  const h = document.documentElement;
+  progress.style.width = (scrollY / (h.scrollHeight - h.clientHeight) * 100) + "%";
+}, { passive: true });
+
+const links = $$(".nav-links a.link");
+const secObs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id));
+}), { rootMargin: "-45% 0px -50% 0px" });
+$$("section").forEach(s => secObs.observe(s));
+
+/* 등장 애니메이션 + 숫자 카운트 */
+const revObs = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add("in"); revObs.unobserve(e.target);
+  $$("[data-count]", e.target).forEach(n => {
+    const to = +n.dataset.count, suf = n.dataset.suffix || "", t0 = performance.now();
+    (function step(t) {
+      const p = Math.min((t - t0) / 1200, 1);
+      n.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))) + suf;
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  });
+}), { threshold: .15 });
+$$(".reveal").forEach(el => revObs.observe(el));
+
+/* 커서 글로우 */
+const glow = $("#glow");
+addEventListener("pointermove", e => { glow.style.left = e.clientX + "px"; glow.style.top = e.clientY + "px"; }, { passive: true });
+
+/* 카드 3D 틸트 + 스포트라이트 */
+function tilt(el, max) {
+  el.addEventListener("pointermove", e => {
+    const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    el.style.setProperty("--mx", x * 100 + "%"); el.style.setProperty("--my", y * 100 + "%");
+    el.style.transform = `perspective(900px) rotateY(${(x - .5) * max}deg) rotateX(${(.5 - y) * max}deg) translateY(-4px)`;
+  });
+  el.addEventListener("pointerleave", () => el.style.transform = "");
+}
+if (matchMedia("(hover:hover)").matches) {
+  $$(".card:not(.soon)").forEach(c => tilt(c, 8));
+  tilt($("#tilt"), 14);
+  /* 마그네틱 버튼 */
+  $$(".magnetic").forEach(b => {
+    b.addEventListener("pointermove", e => {
+      const r = b.getBoundingClientRect();
+      b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .2}px, ${(e.clientY - r.top - r.height / 2) * .3}px)`;
+    });
+    b.addEventListener("pointerleave", () => b.style.transform = "");
+  });
+}
+
+/* 테마 */
+const root = document.documentElement, themeBtn = $("#themeBtn");
+const getSaved = () => { try { return localStorage.getItem("theme"); } catch { return null; } };
+function setTheme(t) {
+  root.dataset.theme = t; themeBtn.textContent = t === "dark" ? "🌙" : "☀️";
+  try { localStorage.setItem("theme", t); } catch {}
+}
+setTheme(getSaved() || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
+themeBtn.onclick = () => setTheme(root.dataset.theme === "dark" ? "light" : "dark");
+
+/* 모바일 메뉴 */
+const nav = $("#navLinks");
+$("#menuBtn").onclick = () => nav.classList.toggle("open");
+links.forEach(l => l.addEventListener("click", () => nav.classList.remove("open")));
+</script>
 </body>
 </html>
