@@ -275,7 +275,7 @@
         <h2 class="title">센치랩의 게임</h2>
         <p class="sub">짧게 즐겨도 오래 기억에 남는 게임을 만듭니다.</p></div>
         <div class="games" id="gamesGrid"></div>
-        <noscript><p><a href="./ground-breaker.html">GroundBreaker 개인정보처리방침</a></p></noscript>
+        <noscript><p><a href="./ground-breaker.html">GroundBreaker 개인정보처리방침</a> · <a href="./puffy_match.html">말랑말랑 매치 개인정보처리방침</a></p></noscript>
       </div>
     </section>
 
@@ -335,6 +335,16 @@ const GAMES = [
     image: "",                           // 실제 이미지 경로 (비워두면 임시 이미지 표시)
     colors: ["#7c5cff", "#22d3ee"],      // 임시 이미지 색상
     emoji: "⛏️"
+  },
+  {
+    name: "말랑말랑 매치",
+    tag: "Match · Arcade",
+    desc: "말랑하고 귀여운 블록을 짝지어 터뜨리며 최고 기록에 도전하세요.",
+    page: "./puffy-match-game.html",     // 게임 페이지
+    privacy: "./puffy_match.html",       // 개인정보처리방침
+    image: "",                           // 실제 이미지 경로 (비워두면 임시 이미지 표시)
+    colors: ["#ff6ec7", "#7c5cff"],      // 임시 이미지 색상
+    emoji: "🍡"
   }
 ];
 
@@ -344,9 +354,10 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 /* 임시 이미지(SVG) */
 function placeholder(g) {
   const [a, b] = g.colors || ["#7c5cff", "#22d3ee"];
+  const gid = "g-" + g.name.replace(/\s+/g, "-");  // 공백이 있으면 url(#id) 참조가 깨지므로 치환
   return `<svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${g.name} 임시 이미지">
-    <defs><linearGradient id="g-${g.name}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>
-    <rect width="640" height="400" fill="url(#g-${g.name})"/>
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>
+    <rect width="640" height="400" fill="url(#${gid})"/>
     <g fill="#fff" opacity=".12"><circle cx="540" cy="70" r="110"/><circle cx="90" cy="360" r="140"/><rect x="250" y="230" width="220" height="220" rx="40" transform="rotate(20 360 340)"/></g>
     <text x="320" y="215" text-anchor="middle" font-size="96">${g.emoji || "🎮"}</text>
     <text x="320" y="285" text-anchor="middle" font-size="22" font-family="sans-serif" font-weight="700" fill="#fff" opacity=".85">${g.name}</text>
