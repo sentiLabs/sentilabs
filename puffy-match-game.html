@@ -285,7 +285,7 @@ const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
 /* 임시 스크린샷: 현재는 Ground Breaker 리소스를 사용 중. 말랑말랑 매치 이미지가 준비되면 SCREENSHOTS 경로를 교체하세요 */
-const SCREENSHOTS = ["./screenshot_kr_0.webp", "./screenshot_kr_1.webp"];
+const SCREENSHOTS = ["./dessert_kr_1-fs8.png", "./space_kr_1-fs8.png"];
 const PH = [["#ff6ec7", "#7c5cff", "🍡"], ["#7c5cff", "#22d3ee", "⏱️"], ["#22d3ee", "#ff6ec7", "✨"]];
 $$("[data-ph]").forEach(el => {
   const i = +el.dataset.ph, src = SCREENSHOTS[i], [a, b, e] = PH[i];
